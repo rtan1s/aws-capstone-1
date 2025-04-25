@@ -27,6 +27,7 @@ build {
   provisioner "shell" {
     inline = [
       "sudo apt-get update -y",
+      "sudo apt-get upgrade -y",
       "sudo apt-get install -y curl unzip python3-pip jq"
     ]
   }
@@ -43,6 +44,14 @@ build {
 
   provisioner "shell" {
     script = "install-ansible.sh"
+  }
+
+    provisioner "shell" {
+    script = "install-docker.sh"
+  }
+
+    provisioner "shell" {
+    script = "install-eksctl.sh"
   }
 
   post-processor "manifest" {}
