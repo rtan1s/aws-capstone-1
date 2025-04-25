@@ -7,38 +7,21 @@ packer {
   }
 }
 
-variable "region"   { 
-    type = string
-    description ="the region where the Bastion will be hosted. The bastion will not be HA by design so just a region will be chosen"
-    }
-variable "ami_name" { 
-    type = string
-    description ="the AMI that will be used for the Bastion"
-    
-    }
 
-
-source "amazon-ebs" "bastion" {
-  region                 = var.region
+source "amazon-ebs" "ubuntu" {
+  region                 = "eu-central-1"
   instance_type          = "t3.small"
   ssh_username           = "ubuntu"
-  ami_name               = var.ami_name
+  ami_name               = "aws-bastion-u2204-aut-001"
   skip_region_validation = true
-
-  source_ami_filter {
-    owners      = ["111128952938"]
-    most_recent = true
-    filters = {
-      name                = "ubuntu/images/hvm-ssd/ubuntu-22.04-*"
-      virtualisation-type = "hvm"
-      architecture        = "x86_64"
-    }
+  source_ami = "ami-03250b0e01c28d196"
   }
-}
 
 build {
-  name    = "bastion"
-  sources = ["source.amazon-ebs.bastion"]
+  name    = "ubuntu"
+  sources = [
+    "source.amazon-ebs.ubuntu"
+  ]
 
   provisioner "shell" {
     inline = [
