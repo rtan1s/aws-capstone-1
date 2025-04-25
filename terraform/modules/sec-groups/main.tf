@@ -41,15 +41,15 @@ resource "aws_security_group" "allow-ssh" {
 }
 
 resource "aws_security_group" "allow-ps" {
-  name        = var.sg_name
-  description = var.sg_description
+  name        = "${var.project}-allow-ps"
+  description = "Enable PS access"
   vpc_id      = var.vpc_id
 
   ingress {
     from_port   = 5432
     to_port     = 5432
     protocol    = "tcp"
-    cidr_blocks = var.sg_cidr_blocks
+    cidr_blocks = ["0.0.0.0/0"]
   }
 
   egress {

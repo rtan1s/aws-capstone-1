@@ -22,30 +22,16 @@ This project builds a scalable, resilient AWS infrastructure for deploying a con
 
 ## Prerequisites
 
-- AWS CLI configured (`aws configure`)
-- a S3 bucket to save the state
-- Terraform >= 1.6.0
+- tfstate regitered locally
+- Terraform >= 1.11.4
 - Packer >= 1.9.0
-- Ansible >= 2.15
-- GitHub repository with AWS credentials stored as secrets
+- GitHub repository
 - IAM permissions to manage:
-  - EC2, S3, RDS, EKS, ALB, VPC, KMS
+  - EC2, EKS, ALB, VPC
 
 ## Step-by-Step Setup
 
-### 1. Create S3 Backend for Terraform State
-
-Navigate to the `state-backend/` directory:
-
-```bash
-aws s3api create-bucket --bucket aws-aer-rt-bucket-001 --region us-east-1
-aws s3api put-object --bucket aws-aer-rt-bucket-001 --key bastion/ --content-length 0
- aws s3api put-object --bucket aws-aer-rt-bucket-001 --key app/ --content-length 0
-```
-
-This creates an S3 bucket with server-side encryption for storing Terraform state remotely.
-
-### 2. Build the Bastion AMI with Packer
+### 1. Build the Bastion AMI with Packer
 
 Navigate to the Packer directory inside `bastion/`:
 

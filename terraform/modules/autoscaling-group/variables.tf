@@ -59,10 +59,6 @@ variable "allow_ssh_id" {
   type = string
 }
 
-variable "allow_ps" {
-  type = string
-}
-
 variable "startup_script" {
   type = string
 }

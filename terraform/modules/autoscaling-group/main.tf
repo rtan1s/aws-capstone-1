@@ -2,7 +2,7 @@ resource "aws_launch_configuration" "launch_configuration" {
   name = "${var.project}-launch-config"
   image_id                    = var.image_id[var.region]
   instance_type               = var.instance_type
-  security_groups             = [var.allow_http_id, var.allow_ssh_id, var.allow_ps]
+  security_groups             = [var.allow_http_id, var.allow_ssh_id]
   associate_public_ip_address = var.add_public_ip
   user_data = file(var.startup_script)
 
