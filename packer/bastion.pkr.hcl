@@ -7,6 +7,17 @@ packer {
   }
 }
 
+variable "region"   { 
+    type = string
+    description ="the region where the Bastion will be hosted. The bastion will not be HA by design so just a region will be chosen"
+    }
+variable "ami_name" { 
+    type = string
+    description ="the AMI that will be used for the Bastion"
+    
+    }
+
+
 source "amazon-ebs" "bastion" {
   region                 = var.region
   instance_type          = "t3.small"
@@ -43,21 +54,11 @@ build {
     ]
   }
   provisioner "shell" {
-    inline = [
-      "LATEST_TF=$(curl -s https://checkpoint-api.hashicorp.com/v1/check/terraform | jq -r .current_version)",
-      "curl -sLo /tmp/terraform.zip https://releases.hashicorp.com/terraform/${LATEST_TF}/terraform_${LATEST_TF}_linux_amd64.zip",
-      "sudo unzip -d /usr/local/bin /tmp/terraform.zip",
-      "terraform -version"
-    ]
+    script = "install-terraform.sh"
   }
 
   provisioner "shell" {
-    inline = [
-      "sudo pip3 install --upgrade pip",
-      "LATEST_ANSIBLE=$(pip3 index versions ansible | grep -Eo 'ansible \\([0-9.]+' | head -1 | cut -d'(' -f2)",
-      "sudo pip3 install ansible==${LATEST_ANSIBLE}",
-      "ansible --version"
-    ]
+    script = "install-ansible.sh"
   }
 
 
