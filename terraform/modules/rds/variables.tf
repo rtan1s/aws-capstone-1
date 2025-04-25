@@ -1,36 +1,13 @@
-variable "name_prefix" {
-  type = string
-}
-
-variable "private_subnet_ids" {
-  type = list(string)
-}
-
-variable "instance_class" {
-  type = string
-}
-
-variable "allocated_storage" {
-  type = number
-}
-
-variable "db_name" {
-  type = string
-}
-
-variable "db_username" {
-  type = string
-}
-
-variable "db_password" {
-  type        = string
-  sensitive   = true
-}
-
-variable "security_group_ids" {
-  type = list(string)
-}
-
-variable "kms_key_id" {
-  type = string
-}
+variable "db_identifier" {}
+variable "db_engine_version" {}
+variable "db_instance_class" {}
+variable "db_allocated_storage" {}
+variable "db_storage_type" {}
+variable "db_multi_az" {}
+variable "db_subnet_group_name" {}
+variable "db_security_group_ids" {}
+variable "db_username" {}
+variable "db_password" {}
+variable "db_skip_final_snapshot" {}
+variable "db_publicly_accessible" {}
+variable "db_name" {}
