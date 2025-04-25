@@ -17,38 +17,8 @@ This project builds a scalable, resilient AWS infrastructure for deploying a con
 - **GitHub Actions**: CI/CD automation
 
 ## Project Structure
+![image](https://github.com/user-attachments/assets/aa36b731-3325-4f00-9f78-06a648ca893f)
 
-```
-project-root/
-├── .github/
-│   └── workflows/
-│       └── deploy.yml
-├── bastion/
-│   ├── main.tf
-│   ├── provider.tf
-│   ├── variables.tf
-│   ├── outputs.tf
-│   ├── terraform.tfvars
-│   └── packer/
-│       └── bastion.pkr.hcl
-├── app/
-│   ├── main.tf
-│   ├── provider.tf
-│   ├── variables.tf
-│   ├── outputs.tf
-│   ├── terraform.tfvars
-│   ├── modules/
-│   │   ├── vpc/
-│   │   ├── eks/
-│   │   ├── alb/
-│   │   ├── rds/
-│   │   ├── ec2/
-│   │   └── s3/
-├── state-backend/
-│   ├── main.tf
-│   ├── variables.tf
-│   ├── terraform.tfvars
-```
 
 ## Prerequisites
 
