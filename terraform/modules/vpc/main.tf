@@ -1,40 +1,45 @@
-resource "aws_vpc" "this" {
-  cidr_block           = var.vpc_cidr
-  enable_dns_support   = true
-  enable_dns_hostnames = true
+resource "aws_vpc" "vpc" {
+  cidr_block       = var.vpc_cidr
+  instance_tenancy = "default"
 
   tags = {
-    Name = "${var.name_prefix}-vpc"
+    Name    = "${var.project}-vpc"
+    Project = var.project
   }
 }
 
-resource "aws_internet_gateway" "this" {
-  vpc_id = aws_vpc.this.id
+resource "aws_subnet" "subnet-a" {
+  vpc_id            = aws_vpc.vpc.id
+  cidr_block        = var.subnet_a_cidr
+  availability_zone = "${var.region}a"
 
   tags = {
-    Name = "${var.name_prefix}-igw"
+    Name = "${var.project}-vpc-subnet-a"
   }
 }
 
-resource "aws_subnet" "public" {
-  count             = length(var.azs)
-  vpc_id            = aws_vpc.this.id
-  cidr_block        = cidrsubnet(var.vpc_cidr, 8, count.index)
-  availability_zone = var.azs[count.index]
-  map_public_ip_on_launch = true
+resource "aws_subnet" "subnet-b" {
+  vpc_id            = aws_vpc.vpc.id
+  cidr_block        = var.subnet_b_cidr
+  availability_zone = "${var.region}b"
 
   tags = {
-    Name = "${var.name_prefix}-public-${count.index + 1}"
+    Name = "${var.project}-vpc-subnet-b"
   }
 }
 
-resource "aws_subnet" "private" {
-  count             = length(var.azs)
-  vpc_id            = aws_vpc.this.id
-  cidr_block        = cidrsubnet(var.vpc_cidr, 8, count.index + 100)
-  availability_zone = var.azs[count.index]
+resource "aws_internet_gateway" "ig" {
+  vpc_id = aws_vpc.vpc.id
 
   tags = {
-    Name = "${var.name_prefix}-private-${count.index + 1}"
+    Name = "${var.project}-vpc-ig"
   }
+}
+
+resource "aws_default_route_table" "rt" {
+  route {
+    cidr_block = "0.0.0.0/0"
+    gateway_id = aws_internet_gateway.ig.id
+  }
+  default_route_table_id = aws_vpc.vpc.default_route_table_id
 }

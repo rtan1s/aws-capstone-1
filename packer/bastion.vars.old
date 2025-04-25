@@ -1,6 +1,0 @@
-region = "us-east-1"
-ami_name = "aws-bastion-u2204-aut-001"
-
-
-
-

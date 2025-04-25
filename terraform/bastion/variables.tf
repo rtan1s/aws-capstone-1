@@ -1,29 +1,32 @@
-variable "project" {
-  description = "Public subnet ID for bastion"
-  type        = string
-}
-
 variable "region" {
-  description = "AWS region"
-  type        = string
+  type = string
+  default = "us-east-1"
 }
 
 variable "ami_id" {
-  description = "AMI ID for bastion host"
-  type        = string
+  type = string
 }
 
-variable "key_pair_name" {
-  description = "Key pair name for bastion SSH access"
-  type        = string
+variable "project" {
+  type = string
 }
 
-variable "vpc_id" {
-  description = "VPC ID to launch bastion in"
-  type        = string
+variable "instance_type" {
+  type = string
 }
 
-variable "subnet_id" {
-  description = "Public subnet ID for bastion"
-  type        = string
+variable "name_prefix" {
+  type = string
+}
+
+variable "vpc_cidr" {
+  type = string
+}
+
+variable "subnet_a_cidr" {
+  type = string
+}
+
+variable "subnet_b_cidr" {
+  type = string
 }

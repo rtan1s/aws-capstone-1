@@ -1,4 +1,3 @@
 output "bastion_public_ip" {
-  description = "Public IP address of the bastion host"
-  value       = module.bastion.public_ip
+  value = module.ec2.public_ip
 }

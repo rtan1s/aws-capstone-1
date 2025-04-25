@@ -53,6 +53,7 @@ project-root/
 ## Prerequisites
 
 - AWS CLI configured (`aws configure`)
+- a S3 bucket to save the state
 - Terraform >= 1.6.0
 - Packer >= 1.9.0
 - Ansible >= 2.15
@@ -67,9 +68,9 @@ project-root/
 Navigate to the `state-backend/` directory:
 
 ```bash
-cd state-backend
-terraform init
-terraform apply
+aws s3api create-bucket --bucket aws-aer-rt-bucket-001 --region us-east-1
+aws s3api put-object --bucket aws-aer-rt-bucket-001 --key bastion/ --content-length 0
+ aws s3api put-object --bucket aws-aer-rt-bucket-001 --key app/ --content-length 0
 ```
 
 This creates an S3 bucket with server-side encryption for storing Terraform state remotely.
