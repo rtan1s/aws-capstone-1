@@ -1,23 +1,21 @@
-resource "aws_lb" "this" {
-  name               = "${var.name_prefix}-alb"
-  internal           = false
-  load_balancer_type = "application"
-  subnets            = var.public_subnet_ids
-  security_groups    = var.security_group_ids
-}
+resource "aws_elb" "elb" {
+  name = "${var.project}-elb"
+  security_groups = [var.allow_http_id]
+  subnets = [var.subnet_a_id, var.subnet_b_id]
+  cross_zone_load_balancing = true
 
-resource "aws_lb_listener" "http" {
-  load_balancer_arn = aws_lb.this.arn
-  port              = 80
-  protocol          = "HTTP"
+  health_check {
+    healthy_threshold   = 2
+    unhealthy_threshold = 2
+    timeout             = 3
+    interval            = 30
+    target              = "HTTP:80/"
+  }
 
-  default_action {
-    type = "fixed-response"
-
-    fixed_response {
-      content_type = "text/plain"
-      message_body = "Default backend"
-      status_code  = "200"
-    }
+  listener {
+    lb_port           = 80
+    lb_protocol       = "http"
+    instance_port     = "80"
+    instance_protocol = "http"
   }
 }

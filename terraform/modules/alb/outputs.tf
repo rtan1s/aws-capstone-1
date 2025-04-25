@@ -1,7 +1,7 @@
-output "alb_arn" {
-  value = aws_lb.this.arn
+output "load_balancer_address" {
+  value = aws_elb.elb.dns_name
 }
 
-output "alb_dns_name" {
-  value = aws_lb.this.dns_name
+output "load_balancer_id" {
+  value = aws_elb.elb.id
 }
