@@ -36,14 +36,14 @@ This project builds a scalable, resilient AWS infrastructure for deploying a con
 Navigate to the Packer directory inside `bastion/`:
 
 ```bash
-cd ../bastion/packer
+cd ../packer/bastion
 packer init bastion.pkr.hcl
 packer build bastion.pkr.hcl
 ```
 
 Copy the resulting AMI ID and update `terraform.tfvars` under `bastion/` with it.
 
-### 3. Deploy Bastion Host
+### 2. Deploy Bastion Host
 
 Navigate to the `bastion/` directory and apply:
 
@@ -55,7 +55,19 @@ terraform apply
 
 This deploys a single EC2 bastion host in its own VPC.
 
-### 4. Deploy Application Infrastructure
+### 3. Build the Bastion AMI with Packer
+
+Navigate to the Packer directory inside `bastion/`:
+
+```bash
+cd ../packer/appserver
+packer init appserver.pkr.hcl
+packer build appserver.pkr.hcl
+```
+
+Copy the resulting AMI ID and update `terraform.tfvars` under `appserver/` with it.
+
+### 5. Deploy Application Infrastructure
 
 Move to the application folder:
 
@@ -67,35 +79,11 @@ terraform apply
 
 This deploys:
 
-- VPC with public/private subnets in two AZs
-- EKS cluster across multiple AZs
-- RDS PostgreSQL (Multi-AZ)
+- VPC with private subnets in two AZs
+- EC2 instances and application binaries
 - Application Load Balancer
-- KMS keys
-- S3 buckets
-- EC2 instances for automation (if required)
 
-### 5. Configure PostgreSQL with Ansible
-
-Once the RDS instance is available and reachable from the bastion, use Ansible to run initialization scripts:
-
-```bash
-ansible-playbook -i inventory.ini playbooks/postgres-setup.yml
-```
-
-Make sure to run this command from a system with access to the bastion or directly on the bastion if needed.
-
-### 6. Enable GitHub Actions for CI/CD
-
-This project includes a GitHub Actions workflow (`.github/workflows/deploy.yml`) that runs `terraform plan` and `terraform apply` automatically on push to the `main` branch.
-
-#### GitHub Secrets Required
-
-- `AWS_ACCESS_KEY_ID`
-- `AWS_SECRET_ACCESS_KEY`
-- `TF_VAR_tfstate_bucket_name`
-- `TF_VAR_tfstate_region`
-- Any other variables used in `terraform.tfvars`
+### 6. Final GitHub upload
 
 #### Push to Main
 
