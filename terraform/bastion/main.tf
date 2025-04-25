@@ -1,8 +1,8 @@
 module "bastion" {
-  source         = "../modules/bastion"
-  region         = var.region
+  source         = "../modules/ec2"
   ami_id         = var.ami_id
-  key_pair_name  = var.key_pair_name
-  vpc_id         = var.vpc_id
   subnet_id      = var.subnet_id
+  name_prefix = var.project
+  security_group_ids = abs()
+  key_name = ""
 }

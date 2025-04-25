@@ -1,3 +1,8 @@
+variable "project" {
+  description = "Public subnet ID for bastion"
+  type        = string
+}
+
 variable "region" {
   description = "AWS region"
   type        = string

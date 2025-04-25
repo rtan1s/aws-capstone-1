@@ -9,12 +9,13 @@ packer {
 
 
 source "amazon-ebs" "ubuntu" {
-  region                 = "eu-central-1"
-  instance_type          = "t3.small"
+  region                 = "us-east-1"
+  instance_type          = "t2.medium"
   ssh_username           = "ubuntu"
   ami_name               = "aws-bastion-u2204-aut-001"
   skip_region_validation = true
-  source_ami = "ami-03250b0e01c28d196"
+  source_ami = "ami-084568db4383264d4"
+  
   }
 
 build {
@@ -43,7 +44,6 @@ build {
   provisioner "shell" {
     script = "install-ansible.sh"
   }
-
 
   post-processor "manifest" {}
 }
