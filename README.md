@@ -30,10 +30,12 @@ This project builds a scalable, resilient AWS infrastructure for deploying a con
   - EC2, EKS, ALB, VPC
 
 ## Step-by-Step Setup
+### 0. Clone the repository locally
+git clone https://github.com/rtan1s/aws-capstone-1.git
 
 ### 1. Build the Bastion AMI with Packer
 
-Navigate to the Packer directory inside `bastion/`:
+Navigate to the Packer directory inside `aws-capstone-1/`:
 
 ```bash
 cd ../packer/bastion
@@ -48,14 +50,38 @@ Copy the resulting AMI ID and update `terraform.tfvars` under `bastion/` with it
 Navigate to the `bastion/` directory and apply:
 
 ```bash
-cd ..
+
 terraform init
 terraform apply
 ```
 
 This deploys a single EC2 bastion host in its own VPC.
 
-### 3. Build the Bastion AMI with Packer
+Clone the repository into the bastion
+```bash
+git clone https://github.com/rtan1s/aws-capstone-1.git
+```
+
+### 3. Test the automation environment
+clone 
+
+Navigate to the `ec2-test/` directory and apply:
+
+```bash
+
+terraform init
+terraform apply
+```
+
+then destroy the environment with
+```bash
+
+terraform destroy
+
+```
+
+
+### 4. Build the appserver AMI with Packer
 
 Navigate to the Packer directory inside `bastion/`:
 
@@ -83,6 +109,11 @@ This deploys:
 - EC2 instances and application binaries
 - Application Load Balancer
 
+from the output of terraform , identify the LB url (i.e. alb-amazon.aws.com)
+Browse the URL found:
+  i.e. http://alb-amazon.aws.com
+to check if the application is working
+
 ### 6. Final GitHub upload
 
 #### Push to Main
@@ -99,13 +130,6 @@ To destroy the application infrastructure (keeping the bastion alive):
 
 ```bash
 cd app
-terraform destroy
-```
-
-To destroy the bastion host as well:
-
-```bash
-cd ../bastion
 terraform destroy
 ```
 
