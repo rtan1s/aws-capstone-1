@@ -1,0 +1,6 @@
+project = "dbapp"
+region = "us-east-1"
+ami_id = "ami-0fd257a20c9fccc03"
+vpc_cidr      = "192.170.0.0/16"
+subnet_a_cidr = "192.170.1.0/24"
+subnet_b_cidr = "192.170.2.0/24"
